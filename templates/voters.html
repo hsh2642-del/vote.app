@@ -29,24 +29,27 @@
             font-size: 16px;
         }
         button {
-            background: #A8E6CF;
+            background: #FFB6C9;
             border: none;
             cursor: pointer;
             font-weight: bold;
         }
-        button:hover { opacity: 0.85; }
+        button:hover {
+            opacity: 0.85;
+        }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <h2>🗳 유권자 수</h2>
+    <h2>👥 유권자 등록</h2>
 
     <form action="/voters" method="POST">
         <input type="number" name="voters" placeholder="유권자 수 입력" required>
-        <button type="submit">투표 시작</button>
+        <button type="submit">다음</button>
     </form>
 </div>
 
 </body>
 </html>
+
