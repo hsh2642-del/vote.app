@@ -1,3 +1,21 @@
-<h1>vote</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>투표하기</title>
+</head>
+<body>
+    <h1>🗳 투표하기</h1>
 
+    <form action="/vote" method="post">
+        <label>투표할 후보 선택:</label>
+        <select name="candidate">
+            {% for name in candidates %}
+                <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
+        </select>
 
+        <button type="submit">투표하기</button>
+    </form>
+</body>
+</html>
