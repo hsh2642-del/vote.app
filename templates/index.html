@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>투표 시작</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
+        .card { width: 350px; padding: 25px; border-radius: 15px; box-shadow: 0 0 12px rgba(0,0,0,0.15); }
+        input, button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 10px; border: 1px solid #ccc; }
+        button { background: #4A63E7; color: white; border: none; font-size: 16px; cursor: pointer; }
+    </style>
 </head>
 <body>
-    <h1>📌 투표 프로그램</h1>
+    <div class="card">
+        <h2>투표 프로그램 시작</h2>
 
-    <form action="/register" method="post">
-        <label>후보 수:</label>
-        <input type="number" name="num" min="1" required><br><br>
+        <form action="/set_candidates" method="POST">
+            <label>후보 수 입력</label>
+            <input type="number" name="candidate_count" required min="1" max="20">
 
-        <div id="candidate-box"></div>
+            <div id="candidate_inputs"></div>
 
-        <button type="button" onclick="addInputs()">후보 이름 입력창 생성</button><br><br>
-        <button type="submit">후보 등록 완료</button>
-    </form>
+            <button type="button" onclick="generateInputs()">후보 이름 입력창 만들기</button>
+            <button type="submit">다음으로</button>
+        </form>
+    </div>
 
     <script>
-        function addInputs() {
-            let num = document.querySelector("input[name='num']").value;
-            let box = document.getElementById("candidate-box");
-
+        function generateInputs() {
+            let num = document.querySelector("input[name='candidate_count']").value;
+            let box = document.getElementById("candidate_inputs");
             box.innerHTML = "";
-            for (let i = 1; i <= num; i++) {
-                box.innerHTML += `<label>${i}번 후보 이름:</label>
-                <input type="text" name="candidate${i}" required><br><br>`;
+
+            for (let i = 0; i < num; i++) {
+                box.innerHTML += `<input name="candidate_${i}" placeholder="후보 ${i+1} 이름" required>`;
             }
         }
     </script>
