@@ -5,11 +5,14 @@
     <title>투표하기</title>
 </head>
 <body>
-    <h1>🗳 투표하기</h1>
+    <h1>🗳 {{ current }}번 유권자 투표</h1>
 
     <form action="/vote" method="post">
-        <label>투표할 후보 선택:</label>
+        <input type="hidden" name="current" value="{{ current }}">
+
+        <label>투표할 후보:</label>
         <select name="candidate">
+            <option value="">-- 무효표 --</option>   <!-- 무효표 선택 -->
             {% for name in candidates %}
                 <option value="{{ name }}">{{ name }}</option>
             {% endfor %}
