@@ -22,10 +22,10 @@
         }
         select, button {
             width: 100%;
-            margin-top: 12px;
+            margin-top: 10px;
             padding: 14px;
-            border-radius: 10px;
             border: 1px solid #ddd;
+            border-radius: 10px;
             font-size: 16px;
         }
         button {
@@ -34,24 +34,33 @@
             cursor: pointer;
             font-weight: bold;
         }
-        button:hover { opacity: 0.85; }
+        button:hover {
+            opacity: 0.85;
+        }
+        .info {
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #777;
+        }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <h2>유권자 {{ current }} 투표</h2>
+    <h2>🗳 투표하기</h2>
+
+    <div class="info">유권자 {{ current }} 번째</div>
 
     <form action="/vote" method="POST">
+        <input type="hidden" name="current" value="{{ current }}">
 
         <select name="candidate" required>
+            <option value="">후보 선택</option>
             {% for name in candidates %}
-            <option value="{{ name }}">{{ name }}</option>
+                <option value="{{ name }}">{{ name }}</option>
             {% endfor %}
-            <option value="invalid">무효표</option>
+            <option value="invalid">🚫 무효표</option>
         </select>
-
-        <input type="hidden" name="current" value="{{ current }}">
 
         <button type="submit">투표 완료</button>
     </form>
@@ -59,4 +68,3 @@
 
 </body>
 </html>
-
