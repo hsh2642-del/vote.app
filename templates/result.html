@@ -2,20 +2,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>투표하기</title>
+    <title>결과</title>
 </head>
 <body>
-    <h1>🗳 투표하기</h1>
+    <h1>📊 최종 투표 결과</h1>
 
-    <form action="/vote" method="post">
-        <label>투표할 후보 선택:</label>
-        <select name="candidate">
-            {% for name in candidates %}
-                <option value="{{ name }}">{{ name }}</option>
-            {% endfor %}
-        </select>
+    {% for name, count in candidates.items() %}
+        <p>{{ name }} : {{ count }}표</p>
+    {% endfor %}
 
-        <button type="submit">투표하기</button>
-    </form>
+    <a href="/">다시하기</a>
 </body>
 </html>
