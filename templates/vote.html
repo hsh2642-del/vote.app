@@ -1,25 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>투표하기</title>
+    <style>
+        body {
+            background: #F7F3FF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial';
+        }
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        select, button {
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        button {
+            background: #FFB6C9;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { opacity: 0.85; }
+    </style>
 </head>
 <body>
-    <h1>🗳 {{ current }}번 유권자 투표</h1>
 
-    <form action="/vote" method="post">
-        <input type="hidden" name="current" value="{{ current }}">
+<div class="box">
+    <h2>유권자 {{ current }} 투표</h2>
 
-        <label>투표할 후보:</label>
-        <select name="candidate">
-            <option value="">-- 무효표 --</option>   <!-- 무효표 선택 -->
+    <form action="/vote" method="POST">
+
+        <select name="candidate" required>
             {% for name in candidates %}
-                <option value="{{ name }}">{{ name }}</option>
+            <option value="{{ name }}">{{ name }}</option>
             {% endfor %}
+            <option value="invalid">무효표</option>
         </select>
 
-        <button type="submit">투표하기</button>
+        <input type="hidden" name="current" value="{{ current }}">
+
+        <button type="submit">투표 완료</button>
     </form>
+</div>
+
 </body>
 </html>
 
