@@ -1,24 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>투표하기</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 40px; }
+        .card { width: 420px; padding: 25px; border-radius: 15px; box-shadow: 0 0 12px rgba(0,0,0,0.15); }
+        select, input, button { width: 100%; padding: 10px; margin-top: 12px; border-radius: 10px; border: 1px solid #ccc; }
+        button { background: #4A63E7; color: white; border: none; font-size: 16px; cursor: pointer; margin-top: 20px; }
+    </style>
 </head>
 <body>
-    <h1>🗳 {{ current }}번 유권자 투표</h1>
+    <div class="card">
+        <h2>유권자 투표</h2>
 
-    <form action="/vote" method="post">
-        <input type="hidden" name="current" value="{{ current }}">
+        <form action="/vote" method="POST">
+            <label>유권자 수</label>
+            <input type="number" name="voter_count" required min="1" max="100" id="voter_count">
 
-        <label>투표할 후보:</label>
-        <select name="candidate">
-            <option value="">-- 무효표 --</option>   <!-- 무효표 선택 -->
-            {% for name in candidates %}
-                <option value="{{ name }}">{{ name }}</option>
+            <!-- 후보 이름 리스트 숨겨서 전달 -->
+            {% for c in candidates %}
+                <input type="hidden" name="candidate_names" value="{{ c }}">
             {% endfor %}
-        </select>
 
-        <button type="submit">투표하기</button>
-    </form>
+            <div id="vote_inputs"></div>
+
+            <button type="button" onclick="generateVotes()">투표창 만들기</button>
+            <button type="submit">결과 보기</button>
+        </form>
+    </div>
+
+    <script>
+        function generateVotes() {
+            let voters = document.getElementById("voter_count").value;
+            let box = document.getElementById("vote_inputs");
+            let candidateList = [{% for c in candidates %}"{{ c }}",{% endfor %}];
+
+            box.innerHTML = "";
+
+            for (let i = 0; i < voters; i++) {
+                let html = `<p>유권자 ${i+1}</p><select name="vote_${i}">`;
+                candidateList.forEach(c => {
+                    html += `<option value="${c}">${c}</option>`;
+                });
+                html += `</select>`;
+                box.innerHTML += html;
+            }
+        }
+    </script>
 </body>
 </html>
