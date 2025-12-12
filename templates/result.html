@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>결과</title>
+    <title>투표 결과</title>
     <style>
         body {
             background: #F7F3FF;
@@ -16,50 +16,49 @@
             background: white;
             padding: 40px;
             border-radius: 18px;
-            width: 380px;
+            width: 350px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .candidate {
-            background: #FFEAF0;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 12px;
-            font-size: 18px;
+        .result-item {
+            padding: 10px;
+            font-size: 17px;
+            background: #FFE7EE;
+            border-radius: 10px;
+            margin: 6px 0;
         }
-        .invalid {
-            background: #E0FBE2;
+        .winner {
+            background: #FFD2EA;
+            font-weight: bold;
         }
         button {
-            margin-top: 20px;
             width: 100%;
+            margin-top: 20px;
             padding: 14px;
-            background: #A8E6CF;
-            border: none;
             border-radius: 10px;
+            background: #FFB6C9;
+            border: none;
             font-size: 16px;
             cursor: pointer;
             font-weight: bold;
         }
-        button:hover { opacity: 0.85; }
+        button:hover {
+            opacity: 0.85;
+        }
     </style>
 </head>
 <body>
 
 <div class="box">
-    <h2>📊 최종 투표 결과</h2>
+    <h2>🏆 최종 결과</h2>
 
     {% for name, count in candidates.items() %}
-    <div class="candidate">
-        {{ name }} : {{ count }}표
-    </div>
+        <div class="result-item">{{ name }} : {{ count }}표</div>
     {% endfor %}
 
-    <div class="candidate invalid">
-        무효표 : {{ invalid }}
-    </div>
+    <div class="result-item winner">🚫 무효표 : {{ invalid }}표</div>
 
-    <button onclick="location.href='/'">처음으로</button>
+    <button onclick="location.href='/'">다시 시작하기</button>
 </div>
 
 </body>
