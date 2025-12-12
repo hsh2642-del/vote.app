@@ -1,17 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>유권자 수 입력</title>
+    <style>
+        body {
+            background: #F7F3FF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial';
+        }
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        input, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        button {
+            background: #A8E6CF;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { opacity: 0.85; }
+    </style>
 </head>
 <body>
-    <h1>👥 유권자 수 입력</h1>
 
-    <form action="/voters" method="post">
-        <label>유권자 수:</label>
-        <input type="number" name="voters" min="1" required>
+<div class="box">
+    <h2>🗳 유권자 수</h2>
 
-        <button type="submit">확인</button>
+    <form action="/voters" method="POST">
+        <input type="number" name="voters" placeholder="유권자 수 입력" required>
+        <button type="submit">투표 시작</button>
     </form>
+</div>
+
 </body>
 </html>
