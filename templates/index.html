@@ -1,39 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
+    <meta charset="UTF-8">
     <title>투표 시작</title>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
-        .card { width: 350px; padding: 25px; border-radius: 15px; box-shadow: 0 0 12px rgba(0,0,0,0.15); }
-        input, button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 10px; border: 1px solid #ccc; }
-        button { background: #4A63E7; color: white; border: none; font-size: 16px; cursor: pointer; }
+        body {
+            background: #F7F3FF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial';
+        }
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        input, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        button {
+            background: #FFB6C9;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            opacity: 0.85;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h2>투표 프로그램 시작</h2>
 
-        <form action="/set_candidates" method="POST">
-            <label>후보 수 입력</label>
-            <input type="number" name="candidate_count" required min="1" max="20">
+<div class="box">
+    <h2>📌 후보 등록</h2>
 
-            <div id="candidate_inputs"></div>
+    <form action="/register" method="POST">
+        <input type="number" name="num" placeholder="후보 수 입력" required>
 
-            <button type="button" onclick="generateInputs()">후보 이름 입력창 만들기</button>
-            <button type="submit">다음으로</button>
-        </form>
-    </div>
+        <div id="inputs"></div>
 
-    <script>
-        function generateInputs() {
-            let num = document.querySelector("input[name='candidate_count']").value;
-            let box = document.getElementById("candidate_inputs");
-            box.innerHTML = "";
+        <button type="button" onclick="addInputs()">후보 입력칸 생성</button>
+        <button type="submit">다음</button>
+    </form>
+</div>
 
-            for (let i = 0; i < num; i++) {
-                box.innerHTML += `<input name="candidate_${i}" placeholder="후보 ${i+1} 이름" required>`;
-            }
+<script>
+    function addInputs() {
+        const num = document.querySelector("input[name='num']").value;
+        const inputsDiv = document.getElementById("inputs");
+        inputsDiv.innerHTML = "";
+
+        for (let i = 1; i <= num; i++) {
+            inputsDiv.innerHTML += `<input name="candidate${i}" placeholder="${i}번 후보 이름" required>`;
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
