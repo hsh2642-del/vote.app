@@ -1,1 +1,33 @@
-<h1>hello</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>투표 시작</title>
+</head>
+<body>
+    <h1>📌 투표 프로그램</h1>
+
+    <form action="/register" method="post">
+        <label>후보 수:</label>
+        <input type="number" name="num" min="1" required><br><br>
+
+        <div id="candidate-box"></div>
+
+        <button type="button" onclick="addInputs()">후보 이름 입력창 생성</button><br><br>
+        <button type="submit">후보 등록 완료</button>
+    </form>
+
+    <script>
+        function addInputs() {
+            let num = document.querySelector("input[name='num']").value;
+            let box = document.getElementById("candidate-box");
+
+            box.innerHTML = "";
+            for (let i = 1; i <= num; i++) {
+                box.innerHTML += `<label>${i}번 후보 이름:</label>
+                <input type="text" name="candidate${i}" required><br><br>`;
+            }
+        }
+    </script>
+</body>
+</html>
