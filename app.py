@@ -2,67 +2,54 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-candidates = {}
-total_voters = 0
-current_voter = 1
-invalid_votes = 0   # 무효표 카운트 추가!
-
-
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@app.route('/register', methods=['POST'])
-def register():
-    global candidates, total_voters, current_voter, invalid_votes
-    candidates = {}
-    total_voters = 0
-    current_voter = 1
-    invalid_votes = 0
+@app.route("/set_candidates", methods=["POST"])
+def set_candidates():
+    try:
+        num = int(request.form["candidate_count"])
+    except:
+        return "후보 수는 숫자여야 합니다."
 
-    num = int(request.form['num'])
-    for i in range(1, num + 1):
-        name = request.form.get(f'candidate{i}')
-        if name:
-            candidates[name] = 0
+    candidate_names = []
+    for i in range(num):
+        candidate_names.append(request.form.get(f"candidate_{i}"))
 
-    return render_template('voters.html')
+    # 무효표 추가
+    candidate_names.append("무효표")
 
-
-@app.route('/voters', methods=['POST'])
-def voters():
-    global total_voters
-    total_voters = int(request.form['voters'])
-    return render_template('vote.html', candidates=candidates, current=1)
+    return render_template("vote.html", candidates=candidate_names)
 
 
-@app.route('/vote', methods=['POST'])
+@app.route("/vote", methods=["POST"])
 def vote():
-    global candidates, total_voters, current_voter, invalid_votes
+    candidates = request.form.getlist("candidates")
+    try:
+        voters = int(request.form["voter_count"])
+    except:
+        return "유권자 수는 숫자여야 합니다."
 
-    vote_name = request.form.get('candidate')
-    current_voter = int(request.form['current'])
+    # 후보 목록
+    candidate_names = request.form.getlist("candidate_names")
 
-    # 무효표 처리
-    if vote_name not in candidates:
-        invalid_votes += 1
-    else:
-        candidates[vote_name] += 1
+    # 득표수 초기화
+    results = {name: 0 for name in candidate_names}
 
-    current_voter += 1
+    # 투표 반영
+    for i in range(voters):
+        vote = request.form.get(f"vote_{i}")
+        if vote in results:
+            results[vote] += 1
 
-    # 투표 모두 완료
-    if current_voter > total_voters:
-        return render_template(
-            'result.html',
-            candidates=candidates,
-            invalid=invalid_votes
-        )
+    # 최고 득표자 계산
+    max_votes = max(results.values())
+    winners = [name for name, v in results.items() if v == max_votes]
 
-    # 아직 투표 남음
-    return render_template('vote.html', candidates=candidates, current=current_voter)
+    return render_template("result.html", results=results, winners=winners, max_votes=max_votes)
+  
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run()
